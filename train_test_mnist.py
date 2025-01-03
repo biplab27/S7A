@@ -5,6 +5,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
 from tqdm import tqdm
+import os
 
 # Enhanced neural network architecture
 class Net(nn.Module):
@@ -106,6 +107,33 @@ def train_epoch(model, device, train_loader, optimizer, epoch):
         pbar.set_description(desc= f'Loss={round(loss.item(), 15)} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
         train_acc.append(100*correct/processed)
 
+def save_model(model, optimizer, epoch, train_acc, test_acc, save_dir='model_checkpoints'):
+    """
+    Save model checkpoint with metadata
+    """
+    # Create directory if it doesn't exist
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    
+    # Create checkpoint dictionary
+    checkpoint = {
+        'epoch': epoch,
+        'model_state_dict': model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'train_accuracy': train_acc,
+        'test_accuracy': test_acc
+    }
+    
+    # Save the checkpoint
+    checkpoint_path = os.path.join(save_dir, f'mnist_model_epoch_{epoch}.pth')
+    torch.save(checkpoint, checkpoint_path)
+    
+    # Save best model separately
+    best_model_path = os.path.join(save_dir, 'best_mnist_model.pth')
+    if not os.path.exists(best_model_path) or test_acc > checkpoint.get('test_accuracy', 0):
+        torch.save(checkpoint, best_model_path)
+        print(f'\nNew best model saved with test accuracy: {test_acc:.2f}%')
+
 def test_epoch(model, device, test_loader):
     model.eval()
     test_loss = 0
@@ -114,18 +142,19 @@ def test_epoch(model, device, test_loader):
         for data, target in test_loader:
             data, target = data.to(device), target.to(device)
             output = model(data)
-            test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
-            pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+            test_loss += F.nll_loss(output, target, reduction='sum').item()
+            pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
     test_losses.append(test_loss)
 
+    accuracy = 100. * correct / len(test_loader.dataset)
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
-        test_loss, correct, len(test_loader.dataset),
-        100. * correct / len(test_loader.dataset)))
+        test_loss, correct, len(test_loader.dataset), accuracy))
     
-    test_acc.append(100. * correct / len(test_loader.dataset))
+    test_acc.append(accuracy)
+    return accuracy  # Return accuracy for model saving
 
 
 if __name__ == "__main__":
@@ -163,7 +192,18 @@ if __name__ == "__main__":
     model = Net().to(device)
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
     EPOCHS = 20
+    best_accuracy = 0.0
     for epoch in range(EPOCHS):
         print("EPOCH:", epoch)
         train_epoch(model, device, train_loader, optimizer, epoch)
-        test_epoch(model, device, test_loader)
+        test_accuracy = test_epoch(model, device, test_loader)
+        
+        # Save model checkpoint
+        save_model(
+            model=model,
+            optimizer=optimizer,
+            epoch=epoch,
+            train_acc=train_acc[-1],  # Last training accuracy
+            test_acc=test_accuracy,
+            save_dir='model_checkpoints'
+        )
