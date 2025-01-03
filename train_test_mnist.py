@@ -72,7 +72,7 @@ test_losses = []
 train_acc = []
 test_acc = []
 
-def train(model, device, train_loader, optimizer, epoch):
+def train_epoch(model, device, train_loader, optimizer, epoch):
     model.train()
     pbar = tqdm(train_loader)
     correct = 0
@@ -103,10 +103,10 @@ def train(model, device, train_loader, optimizer, epoch):
         correct += pred.eq(target.view_as(pred)).sum().item()
         processed += len(data)
 
-        pbar.set_description(desc= f'Loss={loss.item()} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
+        pbar.set_description(desc= f'Loss={round(loss.item(), 15)} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
         train_acc.append(100*correct/processed)
 
-def test(model, device, test_loader):
+def test_epoch(model, device, test_loader):
     model.eval()
     test_loss = 0
     correct = 0
@@ -141,8 +141,8 @@ if __name__ == "__main__":
                                         transforms.Normalize((0.1307,), (0.3081,))
                                         ])
     
-    train = datasets.MNIST('./data', train=True, download=False, transform=train_transforms)
-    test = datasets.MNIST('./data', train=False, download=False, transform=test_transforms)
+    train_dataset = datasets.MNIST('./data', train=True, download=False, transform=train_transforms)
+    test_dataset = datasets.MNIST('./data', train=False, download=False, transform=test_transforms)
 
     SEED = 1
     # CUDA?
@@ -152,19 +152,18 @@ if __name__ == "__main__":
     torch.manual_seed(SEED)
     if use_cuda:
         torch.cuda.manual_seed(SEED)
-    # dataloader arguments - something you'll fetch these from cmdprmt
+    # dataloader arguments
     dataloader_args = dict(shuffle=True, batch_size=128, num_workers=4, pin_memory=True) if use_cuda else dict(shuffle=True, batch_size=64)
-    # train dataloader
-    train_loader = torch.utils.data.DataLoader(train, **dataloader_args)
-    # test dataloader
-    test_loader = torch.utils.data.DataLoader(test, **dataloader_args)
+    
+    train_loader = torch.utils.data.DataLoader(train_dataset, **dataloader_args)
+    test_loader = torch.utils.data.DataLoader(test_dataset, **dataloader_args)
 
     device = torch.device("cuda" if use_cuda else "cpu")
     print(device)
-    model =  Net().to(device)
+    model = Net().to(device)
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
     EPOCHS = 20
     for epoch in range(EPOCHS):
         print("EPOCH:", epoch)
-        train(model, device, train_loader, optimizer, epoch)
-        test(model, device, test_loader)
+        train_epoch(model, device, train_loader, optimizer, epoch)
+        test_epoch(model, device, test_loader)
