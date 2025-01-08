@@ -447,9 +447,39 @@ Non-trainable params: 0
 2025-01-08 15:32:57 | INFO | EPOCH: 13
 2025-01-08 15:33:04 | INFO | Loss=0.074990995228291 Batch_id=468 Accuracy=98.39
 2025-01-08 15:33:05 | INFO | Test set: Average loss: 0.0330, Accuracy: 9903/10000 (99.03%)
-2025-01-08 15:33:05 | INFO | EPOCH: 14
-2025-01-08 15:33:12 | INFO | Loss=0.026642076671124 Batch_id=468 Accuracy=98.35
-2025-01-08 15:33:13 | INFO | Test set: Average loss: 0.0337, Accuracy: 9901/10000 (99.01%)
+2025-01-08 15:38:43 | INFO | EPOCH: 14
+2025-01-08 15:38:51 | INFO | Loss=0.030444800853729 Batch_id=468 Accuracy=98.36
+2025-01-08 15:38:52 | INFO | Test set: Average loss: 0.0336, Accuracy: 9905/10000 (99.05%)
+2025-01-08 15:38:52 | INFO | EPOCH: 15
+2025-01-08 15:38:59 | INFO | Loss=0.049127090722322 Batch_id=468 Accuracy=98.40
+2025-01-08 15:39:00 | INFO | Test set: Average loss: 0.0325, Accuracy: 9907/10000 (99.07%)
+2025-01-08 15:39:00 | INFO | EPOCH: 16
+2025-01-08 15:39:07 | INFO | Loss=0.032948318868876 Batch_id=468 Accuracy=98.53
+2025-01-08 15:39:08 | INFO | Test set: Average loss: 0.0288, Accuracy: 9913/10000 (99.13%)
+2025-01-08 15:39:08 | INFO | EPOCH: 17
+2025-01-08 15:39:15 | INFO | Loss=0.097196608781815 Batch_id=468 Accuracy=98.58
+2025-01-08 15:39:16 | INFO | Test set: Average loss: 0.0327, Accuracy: 9909/10000 (99.09%)
+2025-01-08 15:39:16 | INFO | EPOCH: 18
+2025-01-08 15:39:23 | INFO | Loss=0.010253393091261 Batch_id=468 Accuracy=98.56
+2025-01-08 15:39:24 | INFO | Test set: Average loss: 0.0296, Accuracy: 9915/10000 (99.15%)
+2025-01-08 15:39:24 | INFO | EPOCH: 19
+2025-01-08 15:39:32 | INFO | Loss=0.022351378574967 Batch_id=468 Accuracy=98.50
+2025-01-08 15:39:32 | INFO | Test set: Average loss: 0.0322, Accuracy: 9910/10000 (99.10%)
+2025-01-08 15:39:32 | INFO | EPOCH: 20
+2025-01-08 15:39:40 | INFO | Loss=0.005902274046093 Batch_id=468 Accuracy=98.60
+2025-01-08 15:39:41 | INFO | Test set: Average loss: 0.0281, Accuracy: 9917/10000 (99.17%)
+2025-01-08 15:39:41 | INFO | EPOCH: 21
+2025-01-08 15:39:48 | INFO | Loss=0.019178420305252 Batch_id=468 Accuracy=98.56
+2025-01-08 15:39:49 | INFO | Test set: Average loss: 0.0298, Accuracy: 9905/10000 (99.05%)
+2025-01-08 15:39:49 | INFO | EPOCH: 22
+2025-01-08 15:39:57 | INFO | Loss=0.024567192420363 Batch_id=468 Accuracy=98.69
+2025-01-08 15:39:58 | INFO | Test set: Average loss: 0.0265, Accuracy: 9926/10000 (99.26%)
+2025-01-08 15:39:58 | INFO | EPOCH: 23
+2025-01-08 15:40:05 | INFO | Loss=0.016854161396623 Batch_id=468 Accuracy=98.65
+2025-01-08 15:40:06 | INFO | Test set: Average loss: 0.0273, Accuracy: 9919/10000 (99.19%)
+2025-01-08 15:40:06 | INFO | EPOCH: 24
+2025-01-08 15:40:13 | INFO | Loss=0.006384678184986 Batch_id=468 Accuracy=98.67
+2025-01-08 15:40:14 | INFO | Test set: Average loss: 0.0262, Accuracy: 9929/10000 (99.29%)
 ```
 
 # Conclusions
@@ -461,6 +491,6 @@ Non-trainable params: 0
 - Image augmentation has helped but the accuracy is not more than 99.06%, which is less than Model 2.
 - Change in learning rate has not significant changes in accuracy.
 - Adding more layers has also not helped in accuracy.
-- Model 5 has more parameters than Model 4, but it has better accuracy.
+- Model 5 has more parameters than Model 4, but it has better accuracy. However with increased epochs, it has more accuracy. for instance, after 25 epochs, it has 99.29% accuracy.
 
 
