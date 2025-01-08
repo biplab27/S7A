@@ -58,7 +58,7 @@ class Net(nn.Module):
            nn.AvgPool2d(kernel_size=6)
         ) # output_size = 7
         self.convblock8 = nn.Sequential(
-            nn.Conv2d(in_channels=16, out_channels=10, kernel_size=(7, 7), padding=0, bias=False),
+            nn.Conv2d(in_channels=16, out_channels=10, kernel_size=(1, 1), padding=0, bias=False),
             # nn.ReLU() NEVER!
         ) # output_size = 1 7x7x10 | 7x7x10x10 | 1x1x10
 
