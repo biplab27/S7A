@@ -225,3 +225,49 @@ Non-trainable params: 0
 
 # Conclusions
 - Model 2 is better than Model 1, interms of accuracy (99.29% vs 98.98%) and loss (0.0226 vs 0.0293), however it has more parameters (14,796) than Model 1 (14,620). But we need to get number of parameters below 8000 and accuracy above 99.4%.
+
+
+# Training and Testing Results for Model 3
+
+## Model Architecture for Model 3
+- Input Block: 1 → 8 channels (3x3 conv)
+- Convolution Block 1: 8 → 8 → 16 channels (3x3 conv)
+- Transition Block: 16 → 8 channels with MaxPooling
+- Convolution Block 2: 8 → 8 → 16 channels (3x3 conv)
+- Output Block: 16 → 10 → 10 channels (1x1 and 7x7 conv)
+
+## Model Parameters for Model 3
+```
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1            [-1, 8, 26, 26]              72
+              ReLU-2            [-1, 8, 26, 26]               0
+       BatchNorm2d-3            [-1, 8, 26, 26]              16
+           Dropout-4            [-1, 8, 26, 26]               0
+            Conv2d-5            [-1, 8, 24, 24]             576
+       BatchNorm2d-6            [-1, 8, 24, 24]              16
+           Dropout-7            [-1, 8, 24, 24]               0
+            Conv2d-8           [-1, 16, 22, 22]           1,152
+              ReLU-9           [-1, 16, 22, 22]               0
+      BatchNorm2d-10           [-1, 16, 22, 22]              32
+          Dropout-11           [-1, 16, 22, 22]               0
+        MaxPool2d-12           [-1, 16, 11, 11]               0
+           Conv2d-13            [-1, 8, 11, 11]             128
+           Conv2d-14              [-1, 8, 9, 9]             576
+             ReLU-15              [-1, 8, 9, 9]               0
+      BatchNorm2d-16              [-1, 8, 9, 9]              16
+          Dropout-17              [-1, 8, 9, 9]               0
+           Conv2d-18             [-1, 16, 7, 7]           1,152
+             ReLU-19             [-1, 16, 7, 7]               0
+      BatchNorm2d-20             [-1, 16, 7, 7]              32
+          Dropout-21             [-1, 16, 7, 7]               0
+           Conv2d-22             [-1, 10, 7, 7]             160
+        AvgPool2d-23             [-1, 10, 1, 1]               0
+================================================================
+Total params: 3,928
+Trainable params: 3,928
+Non-trainable params: 0
+```
+
+## Accuracy Logs for Model 3
+Accuracy has dropped to 98.51 in best case. Not worth exploring further.
