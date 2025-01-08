@@ -13,19 +13,42 @@ project/
 └── README.md # This file
 ```
 
-## Model Architecture
-The CNN architecture consists of:
-- Input Block: 1 → 32 channels
-- Convolution Block 1: 32 → 64 → 128 channels
-- Transition Block: 128 → 32 channels with MaxPooling
-- Convolution Block 2: 32 → 64 → 128 channels
-- Output Block: 128 → 10 channels with Global Average Pooling
+## Model Architectures
+
+### Model 1 (Base Model)
+- Input Block: 1 → 8 channels (3x3 conv)
+- Convolution Block 1: 8 → 16 → 24 channels (3x3 conv)
+- Transition Block: 24 → 8 channels with MaxPooling
+- Convolution Block 2: 8 → 16 → 24 channels (3x3 conv)
+- Output Block: 24 → 10 → 10 channels (1x1 and 7x7 conv)
+- Parameters: 14,620
+- Best Accuracy: 98.98%
+
+### Model 2 (With BatchNorm)
+- Input Block: 1 → 8 channels (3x3 conv)
+- Convolution Block 1: 8 → 16 → 24 channels (3x3 conv)
+- Transition Block: 24 → 8 channels with MaxPooling
+- Convolution Block 2: 8 → 16 → 24 channels (3x3 conv)
+- Output Block: 24 → 10 → 10 channels (1x1 and 7x7 conv)
+- Parameters: 14,796
+- Best Accuracy: 99.29%
+
+### Model 5 (Final Optimized)
+- Input Block: 1 → 6 channels (3x3 conv)
+- Convolution Block 1: 6 → 16 → 20 channels (3x3 conv)
+- Transition Block: 20 → 6 channels with MaxPooling
+- Convolution Block 2: 6 → 16 → 20 channels (3x3 conv)
+- Output Block: 20 → 10 channels (Global Average Pooling)
+- Parameters: 8,018
+- Best Accuracy: 99.29%
 
 Key features:
 - Uses only 3x3 and 1x1 convolutions
 - No bias terms in convolution layers
 - ReLU activation throughout
 - MaxPooling for dimensionality reduction
+- BatchNormalization in later models
+- Dropout rate of 10%
 
 ## Requirements 
 ```
