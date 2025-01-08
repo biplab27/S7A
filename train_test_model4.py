@@ -47,7 +47,7 @@ class Net(nn.Module):
             nn.Dropout(dropout_rate)
         ) # output_size = 9
         self.convblock6 = nn.Sequential(
-            nn.Conv2d(in_channels=16, out_channels=16, kernel_size=(3, 3), padding=0, bias=False),
+            nn.Conv2d(in_channels=16, out_channels=16, kernel_size=(3, 3), padding=1, bias=False),
             nn.ReLU(),
             nn.BatchNorm2d(16),
             nn.Dropout(dropout_rate)
@@ -55,10 +55,10 @@ class Net(nn.Module):
 
         # OUTPUT BLOCK, No Dropout, No ReLU, No MaxPool, No BatchNorm
         self.convblock7 = nn.Sequential(
-            nn.Conv2d(in_channels=16, out_channels=10, kernel_size=(1, 1), padding=0, bias=False),
+           nn.AvgPool2d(kernel_size=6)
         ) # output_size = 7
         self.convblock8 = nn.Sequential(
-            nn.AvgPool2d(kernel_size=7)
+            nn.Conv2d(in_channels=16, out_channels=10, kernel_size=(7, 7), padding=0, bias=False),
             # nn.ReLU() NEVER!
         ) # output_size = 1 7x7x10 | 7x7x10x10 | 1x1x10
 
@@ -172,6 +172,7 @@ if __name__ == "__main__":
     
     # Train Phase transformations
     train_transforms = transforms.Compose([
+                                        transforms.RandomRotation((-7.0, 7.0), fill=(1,)),
                                         transforms.ToTensor(),
                                         transforms.Normalize((0.1307,), (0.3081,))
                                         ])

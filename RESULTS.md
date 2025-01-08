@@ -223,10 +223,6 @@ Non-trainable params: 0
 2025-01-08 12:47:19 | INFO | Test set: Average loss: 0.0226, Accuracy: 9929/10000 (99.29%)
 ```
 
-# Conclusions
-- Model 2 is better than Model 1, interms of accuracy (99.29% vs 98.98%) and loss (0.0226 vs 0.0293), however it has more parameters (14,796) than Model 1 (14,620). But we need to get number of parameters below 8000 and accuracy above 99.4%.
-
-
 # Training and Testing Results for Model 3
 
 ## Model Architecture for Model 3
@@ -271,3 +267,103 @@ Non-trainable params: 0
 
 ## Accuracy Logs for Model 3
 Accuracy has dropped to 98.51 in best case. Not worth exploring further.
+
+# Training and Testing Results for Model 4
+
+## Model Architecture for Model 4
+- Input Block: 1 → 8 channels (3x3 conv)
+- Convolution Block 1: 8 → 16 → 16 channels (3x3 conv)
+- Transition Block: 16 → 8 channels with MaxPooling
+- Convolution Block 2: 8 → 16 → 16 channels (3x3 conv)
+- Output Block: 16 → 10 → 10 channels (1x1 and 7x7 conv)
+
+## Model Parameters for Model 4
+```
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1            [-1, 8, 26, 26]              72
+              ReLU-2            [-1, 8, 26, 26]               0
+       BatchNorm2d-3            [-1, 8, 26, 26]              16
+           Dropout-4            [-1, 8, 26, 26]               0
+            Conv2d-5           [-1, 16, 24, 24]           1,152
+       BatchNorm2d-6           [-1, 16, 24, 24]              32
+           Dropout-7           [-1, 16, 24, 24]               0
+            Conv2d-8           [-1, 16, 22, 22]           2,304
+              ReLU-9           [-1, 16, 22, 22]               0
+      BatchNorm2d-10           [-1, 16, 22, 22]              32
+          Dropout-11           [-1, 16, 22, 22]               0
+        MaxPool2d-12           [-1, 16, 11, 11]               0
+           Conv2d-13            [-1, 8, 11, 11]             128
+           Conv2d-14             [-1, 16, 9, 9]           1,152
+             ReLU-15             [-1, 16, 9, 9]               0
+      BatchNorm2d-16             [-1, 16, 9, 9]              32
+          Dropout-17             [-1, 16, 9, 9]               0
+           Conv2d-18             [-1, 16, 7, 7]           2,304
+             ReLU-19             [-1, 16, 7, 7]               0
+      BatchNorm2d-20             [-1, 16, 7, 7]              32
+          Dropout-21             [-1, 16, 7, 7]               0
+           Conv2d-22             [-1, 10, 7, 7]             160
+        AvgPool2d-23             [-1, 10, 1, 1]               0
+================================================================
+Total params: 7,416
+Trainable params: 7,416
+Non-trainable params: 0
+```
+
+## Accuracy Logs for Model 4
+```
+2025-01-08 13:34:56 | INFO | EPOCH: 0
+2025-01-08 13:35:02 | INFO | Loss=0.21636663377285 Batch_id=468 Accuracy=80.64
+2025-01-08 13:35:03 | INFO | Test set: Average loss: 0.2643, Accuracy: 9258/10000 (92.58%)
+2025-01-08 13:35:03 | INFO | EPOCH: 1
+2025-01-08 13:35:08 | INFO | Loss=0.13411471247673 Batch_id=468 Accuracy=96.65
+2025-01-08 13:35:09 | INFO | Test set: Average loss: 0.0996, Accuracy: 9743/10000 (97.43%)
+2025-01-08 13:35:09 | INFO | EPOCH: 2
+2025-01-08 13:35:15 | INFO | Loss=0.133614853024483 Batch_id=468 Accuracy=97.50
+2025-01-08 13:35:16 | INFO | Test set: Average loss: 0.0773, Accuracy: 9801/10000 (98.01%)
+2025-01-08 13:35:16 | INFO | EPOCH: 3
+2025-01-08 13:35:21 | INFO | Loss=0.048495646566153 Batch_id=468 Accuracy=97.91
+2025-01-08 13:35:22 | INFO | Test set: Average loss: 0.0646, Accuracy: 9814/10000 (98.14%)
+2025-01-08 13:35:22 | INFO | EPOCH: 4
+2025-01-08 13:35:27 | INFO | Loss=0.080205358564854 Batch_id=468 Accuracy=98.15
+2025-01-08 13:35:28 | INFO | Test set: Average loss: 0.0526, Accuracy: 9839/10000 (98.39%)
+2025-01-08 13:35:28 | INFO | EPOCH: 5
+2025-01-08 13:35:34 | INFO | Loss=0.023551568388939 Batch_id=468 Accuracy=98.33
+2025-01-08 13:35:35 | INFO | Test set: Average loss: 0.0487, Accuracy: 9845/10000 (98.45%)
+2025-01-08 13:35:35 | INFO | EPOCH: 6
+2025-01-08 13:35:40 | INFO | Loss=0.06669194996357 Batch_id=468 Accuracy=98.45
+2025-01-08 13:35:41 | INFO | Test set: Average loss: 0.0443, Accuracy: 9871/10000 (98.71%)
+2025-01-08 13:35:41 | INFO | EPOCH: 7
+2025-01-08 13:35:47 | INFO | Loss=0.085388988256454 Batch_id=468 Accuracy=98.58
+2025-01-08 13:35:48 | INFO | Test set: Average loss: 0.0433, Accuracy: 9872/10000 (98.72%)
+2025-01-08 13:35:48 | INFO | EPOCH: 8
+2025-01-08 13:35:53 | INFO | Loss=0.102255403995514 Batch_id=468 Accuracy=98.56
+2025-01-08 13:35:54 | INFO | Test set: Average loss: 0.0340, Accuracy: 9904/10000 (99.04%)
+2025-01-08 13:35:54 | INFO | EPOCH: 9
+2025-01-08 13:35:59 | INFO | Loss=0.027389526367188 Batch_id=468 Accuracy=98.63
+2025-01-08 13:36:00 | INFO | Test set: Average loss: 0.0328, Accuracy: 9898/10000 (98.98%)
+2025-01-08 13:36:00 | INFO | EPOCH: 10
+2025-01-08 13:36:06 | INFO | Loss=0.023722825571895 Batch_id=468 Accuracy=98.70
+2025-01-08 13:36:07 | INFO | Test set: Average loss: 0.0327, Accuracy: 9903/10000 (99.03%)
+2025-01-08 13:36:07 | INFO | EPOCH: 11
+2025-01-08 13:36:12 | INFO | Loss=0.052927505224943 Batch_id=468 Accuracy=98.77
+2025-01-08 13:36:13 | INFO | Test set: Average loss: 0.0358, Accuracy: 9892/10000 (98.92%)
+2025-01-08 13:36:13 | INFO | EPOCH: 12
+2025-01-08 13:36:19 | INFO | Loss=0.025599950924516 Batch_id=468 Accuracy=98.82
+2025-01-08 13:36:20 | INFO | Test set: Average loss: 0.0339, Accuracy: 9885/10000 (98.85%)
+2025-01-08 13:36:20 | INFO | EPOCH: 13
+2025-01-08 13:36:25 | INFO | Loss=0.021234704181552 Batch_id=468 Accuracy=98.88
+2025-01-08 13:36:26 | INFO | Test set: Average loss: 0.0306, Accuracy: 9909/10000 (99.09%)
+2025-01-08 13:36:26 | INFO | EPOCH: 14
+2025-01-08 13:36:32 | INFO | Loss=0.040463428944349 Batch_id=468 Accuracy=98.85
+2025-01-08 13:36:33 | INFO | Test set: Average loss: 0.0310, Accuracy: 9902/10000 (99.02%)
+```
+
+# Conclusions
+- Model 2 is better than Model 1, interms of accuracy (99.29% vs 98.98%) and loss (0.0226 vs 0.0293), however it has more parameters (14,796) than Model 1 (14,620). But we need to get number of parameters below 8000 and accuracy above 99.4%.
+- Model 4 is better in terms of parameters and not accuracy. We had better accuracy with less parameters in Model 2.
+- Reduced accuracy in Model 4 is due to the change in dropout rate from 10% to 15%.
+- The best case accurancy in model 4 is 99.13% after making the dropout rate to 7.5%. But we need something better than that. So we will stick to 10% dropout rate, as it has more consistancy in last 2 epochs.
+- Model 3 & 4 we have used AvgPooling in output block. We will try to remove AvgPooling and see the changes in accuracy in model 4, but we need something to not increase the number of parameters. So 1. We added AvgPooling in output block then a convolution. and 2. we added image augmentation. 
+
+
