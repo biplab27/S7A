@@ -31,12 +31,10 @@ class Net(nn.Module):
             nn.Dropout(dropout_rate)
         ) # output_size = 22
 
-        # TRANSITION BLOCK 1
+        # TRANSITION BLOCK 1, No ReLU, No Dropout
         self.pool1 = nn.MaxPool2d(2, 2) # output_size = 11
         self.convblock4 = nn.Sequential(
-            nn.Conv2d(in_channels=24, out_channels=8, kernel_size=(1, 1), padding=0, bias=False),
-            nn.ReLU(),
-            nn.Dropout(dropout_rate)
+            nn.Conv2d(in_channels=24, out_channels=8, kernel_size=(1, 1), padding=0, bias=False)
         ) # output_size = 11
 
         # CONVOLUTION BLOCK 2
