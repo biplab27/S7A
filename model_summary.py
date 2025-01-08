@@ -1,6 +1,6 @@
 import torch
 from torchsummary import summary
-from train_test_mnist import Net
+from train_test_model1 import Net
 from utils.logger import setup_logger
 import io
 import sys
