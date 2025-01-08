@@ -6,7 +6,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from tqdm import tqdm
 import os
-
+from utils.logger import setup_logger
 # Enhanced neural network architecture
 dropout_rate = 0.1
 class Net(nn.Module):
@@ -110,8 +110,11 @@ def train_epoch(model, device, train_loader, optimizer, epoch):
         correct += pred.eq(target.view_as(pred)).sum().item()
         processed += len(data)
 
-        pbar.set_description(desc= f'Loss={round(loss.item(), 15)} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
+        desc_status = f'Loss={round(loss.item(), 15)} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}'
+        pbar.set_description(desc=desc_status)
         train_acc.append(100*correct/processed)
+    logger.info(desc_status)
+
 
 def save_model(model, optimizer, epoch, train_acc, test_acc, save_dir='model_checkpoints'):
     """
@@ -156,14 +159,15 @@ def test_epoch(model, device, test_loader):
     test_losses.append(test_loss)
 
     accuracy = 100. * correct / len(test_loader.dataset)
-    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
-        test_loss, correct, len(test_loader.dataset), accuracy))
-    
+    logger.info(f'Test set: Average loss: {test_loss:.4f}, Accuracy: {correct}/{len(test_loader.dataset)} ({accuracy:.2f}%)')
     test_acc.append(accuracy)
     return accuracy  # Return accuracy for model saving
 
 
 if __name__ == "__main__":
+    # Set up logger
+    logger = setup_logger() # logger is now a global variable
+    
     # Train Phase transformations
     train_transforms = transforms.Compose([
                                         transforms.ToTensor(),
@@ -200,7 +204,7 @@ if __name__ == "__main__":
     EPOCHS = 15
     best_accuracy = 0.0
     for epoch in range(EPOCHS):
-        print("EPOCH:", epoch)
+        logger.info(f"EPOCH: {epoch}")
         train_epoch(model, device, train_loader, optimizer, epoch)
         test_accuracy = test_epoch(model, device, test_loader)
         

@@ -41,11 +41,13 @@ ENV/
 # Project specific
 data/
 model_checkpoints/
+logs/
 *.pth
 mnist_model.pth
 best_mnist_model.pth
 *.pt
 *.ckpt
+*.log
 
 # Jupyter Notebook
 .ipynb_checkpoints

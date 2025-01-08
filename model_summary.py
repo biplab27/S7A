@@ -1,28 +1,47 @@
 import torch
 from torchsummary import summary
 from train_test_mnist import Net
+from utils.logger import setup_logger
+import io
+import sys
 
 def display_model_summary():
+    # Set up logger
+    logger = setup_logger()
+    
     # Set device
     use_cuda = torch.cuda.is_available()
     device = torch.device("cuda" if use_cuda else "cpu")
-    print(f"Using device: {device}")
+    logger.info(f"Using device: {device}")
     
     # Create model instance
     model = Net().to(device)
     
     # Display summary with input size matching MNIST dimensions (1x28x28)
-    print("\nModel Architecture Summary:")
-    print("=" * 80)
-    summary(model, input_size=(1, 28, 28))
+    logger.info("\nModel Architecture Summary:")
+    logger.info("=" * 80)
+    
+    # Capture model summary output
+    old_stdout = sys.stdout
+    new_stdout = io.StringIO()
+    sys.stdout = new_stdout
+    
+    try:
+        summary(model, input_size=(1, 28, 28))
+        summary_output = new_stdout.getvalue()
+        logger.info(summary_output)
+    finally:
+        sys.stdout = old_stdout
     
     # Display receptive field calculations
-    print("\nReceptive Field Calculations:")
-    print("=" * 80)
-    print("{:<15} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8}".format(
+    logger.info("\nReceptive Field Calculations:")
+    logger.info("=" * 80)
+    
+    header = "{:<15} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8}".format(
         "Layer", "RF", "n_in", "n_out", "j_in", "j_out", "r_in", "r_out"
-    ))
-    print("-" * 80)
+    )
+    logger.info(header)
+    logger.info("-" * 80)
     
     # Layer-by-layer RF calculations
     rf_data = [
@@ -39,7 +58,10 @@ def display_model_summary():
     ]
     
     for layer_data in rf_data:
-        print("{:<15} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8}".format(*layer_data))
+        line = "{:<15} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8} {:<8}".format(*layer_data)
+        logger.info(line)
+    
+    logger.info("\nModel summary completed!")
 
 if __name__ == "__main__":
     display_model_summary() 
