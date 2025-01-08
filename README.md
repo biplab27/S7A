@@ -105,3 +105,24 @@ The model achieves competitive accuracy on the MNIST test set. Progress can be m
 ## Acknowledgments
 - MNIST dataset from LeCun et al.
 - PyTorch framework
+
+## Model Analysis
+This script will:
+1. Display the complete model architecture
+2. Show parameter counts for each layer
+3. Calculate memory usage
+4. Show receptive field calculations for each layer
+
+The receptive field calculations include:
+- RF: Receptive Field size
+- n_in/n_out: Input/Output feature map size
+- j_in/j_out: Input/Output stride
+- r_in/r_out: Input/Output padding
+
+This helps in understanding:
+- How the network processes the input image
+- The effective area each layer can "see"
+- Parameter efficiency
+- Memory requirements
+
+You can run this analysis before training to verify the architecture meets your requirements. 
